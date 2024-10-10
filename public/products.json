@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "name": "Cozy Hoodie",
+    "image": "https://littleboxindia.com/cdn/shop/products/1ddfdb3413ce11a01a73e20a333fc104_720x.jpg?v=1701013006",
+    "price": 50,
+    "category": "Hoodie",
+    "size": "L",
+    "instock": true,
+    "quantity": 100
+  },
+  {
+    "id": 2,
+    "name": "Sporty T-shirt",
+    "image": "https://images.meesho.com/images/products/287809585/kcsmb_1200.jpg",
+    "price": 25,
+    "category": "T-shirt",
+    "size": "M",
+    "instock": true,
+    "quantity": 200
+  },
+  {
+    "id": 3,
+    "name": "Casual Hoodie",
+    "image": "https://assets.ajio.com/medias/sys_master/root/20240925/NQig/66f44011260f9c41e82a7e96/-473Wx593H-700480592-black-MODEL.jpg",
+    "price": 45,
+    "category": "Hoodie",
+    "size": "XL",
+    "instock": true,
+    "quantity": 150
+  },
+  {
+    "id": 4,
+    "name": "Graphic T-shirt",
+    "image": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTtOMBNhR7v_czVUw1GEzImFg0YWgC4EahJBN61AiZjMfpiMKZxl9s-mviFBAPmaHXhxmtpg0_PYS3vGQ5mVHLEZ77HmC5U7MDwvkNoCkbyT8G3Vm0HnoEd7g",
+    "price": 30,
+    "category": "T-shirt",
+    "size": "L",
+    "instock": true,
+    "quantity": 250
+  },
+  {
+    "id": 5,
+    "name": "Slim Fit T-shirt",
+    "image": "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcTlf_5y3JiMd-7tBhLWdAqDugwndfpLEq2TKVNg5dxUoncWnoNqz_JCs3jrHsXEIOIsRPsmJ88KPivr2GuPASWP8BzZMZTgDmMGYhdcJaqz2ujiLzP4wRy2bg",
+    "price": 20,
+    "category": "T-shirt",
+    "size": "S",
+    "instock": true,
+    "quantity": 300
+  },
+  {
+    "id": 6,
+    "name": "Pullover Hoodie",
+    "image": "https://images.meesho.com/images/products/350849663/wt2pk_1200.jpg",
+    "price": 60,
+    "category": "Hoodie",
+    "size": "M",
+    "instock": true,
+    "quantity": 80
+  },
+  {
+    "id": 7,
+    "name": "Vintage T-shirt",
+    "image": "https://i.etsystatic.com/27667085/r/il/327388/4563881835/il_fullxfull.4563881835_o3d2.jpg",
+    "price": 35,
+    "category": "T-shirt",
+    "size": "XL",
+    "instock": true,
+    "quantity": 120
+  },
+  {
+    "id": 8,
+    "name": "Zipper Hoodie",
+    "image": "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcShXagjTv1fPFxhndUjjeYMzCX5wOXs2KQQZlBNJBigml46zTjlL2m49hTb2TybJthcjq7NMpARVKsOTkpZa5vdtEWTeOUO2Q",
+    "price": 55,
+    "category": "Hoodie",
+    "size": "S",
+    "instock": true,
+    "quantity": 90
+  },
+  {
+    "id": 9,
+    "name": "Plain T-shirt",
+    "image": "https://5.imimg.com/data5/IN/EK/BA/SELLER-30607000/plain-white-t-shirts.jpg",
+    "price": 15,
+    "category": "T-shirt",
+    "size": "L",
+    "instock": true,
+    "quantity": 400
+  },
+  {
+    "id": 10,
+    "name": "Oversized Hoodie",
+    "image": "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcQ_RLNg0ymoJVgULiZNzvDJZXt-URAtHPFRlXN0TRPap67Uw3B-dgp3-nIXe18KSHBqw7Ey0JiQ_BecsVRAZLufZAuhOy2l_SSKJuoNcuVh0ZDsgXJ23MCxPQ",
+    "price": 65,
+    "category": "Hoodie",
+    "size": "XXL",
+    "instock": true,
+    "quantity": 60
+  }
+]
