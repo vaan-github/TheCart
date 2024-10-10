@@ -40,13 +40,13 @@ function ProductList({ products, cart, setCart }) {
     <div className="p-4">
       {/* Fixed notification */}
       {notification && (
-        <div className="fixed top-0 left-0 w-full bg-green-300 p-2 text-center z-20">
+        <div className="fixed bottom-0 left-0 w-full bg-green-300 p-2 text-center z-20">
           {notification}
         </div>
-      )}
+      )} 
 
       {/* Sticky Filter and Search Section */}
-      <div className="sticky top-10 bg-white z-10 p-4 shadow-md mb-6"> {/* Adjusted top position to make room for notification */}
+      <div className="sticky top-0 bg-white z-10 p-4 shadow-md mb-6"> {/* Adjusted top position to make room for notification */}
         <div className="flex justify-between items-center">
           {/* Category and Size Filters */}
           <div className="flex">
@@ -90,7 +90,7 @@ function ProductList({ products, cart, setCart }) {
       </div>
 
       {/* Product List Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      {filteredProducts.length ? <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {filteredProducts.map((product) => (
           <div key={product.id} className="border p-4">
             <img
@@ -118,7 +118,7 @@ function ProductList({ products, cart, setCart }) {
             </button>
           </div>
         ))}
-      </div>
+      </div> : <div style = {{display : "flex", justifyContent : "center", width : "100%"}}>No Result Found</div> }
     </div>
   );
 }
