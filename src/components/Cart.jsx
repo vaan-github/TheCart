@@ -30,12 +30,13 @@ function Cart({ cart, setCart }) {
           {notification}
         </div>
       )}
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-16">
         <div className="md:col-span-2">
           <h2 className="text-xl font-bold mb-4">Your Cart</h2>
 
-          {/* Header Row */}
-          <div className="flex items-center justify-between font-semibold bg-gray-200 p-4 mb-2">
+          {/* Header Row for larger screens */}
+          <div className="hidden md:flex items-center justify-between font-semibold bg-gray-200 p-4 mb-2">
             <div className="w-16">Product</div>
             <div className="flex-1 ml-4">Name</div>
             <div className="w-24 text-center">Price</div>
@@ -47,30 +48,32 @@ function Cart({ cart, setCart }) {
           {cart.map((item) => (
             <div
               key={item.id}
-              className="flex items-center justify-between border-b p-4 mb-4"
+              className="flex flex-col md:flex-row items-center justify-between border-b p-4 mb-4"
             >
               {/* Product Image */}
-              <img
-                src={item.image}
-                alt={item.name}
-                className="w-16 h-16 object-cover"
-              />
+              <div className="w-full md:w-16 flex justify-center md:block mb-2 md:mb-0">
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="w-16 h-16 object-cover"
+                />
+              </div>
 
               {/* Product Details */}
-              <div className="flex-1 ml-4">
+              <div className="flex-1 ml-0 md:ml-4 text-center md:text-left">
                 <p className="font-semibold">{item.name}</p>
               </div>
 
               {/* Price */}
-              <div className="w-24 text-center">
+              <div className="w-full md:w-24 text-center">
                 <p>${item.price.toFixed(2)}</p>
               </div>
 
               {/* Quantity Controls */}
-              <div className="w-24 flex items-center justify-center">
+              <div className="w-full md:w-24 flex items-center justify-center mb-2 md:mb-0">
                 <button
                   onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                  className="bg-gray-300 px-2 py-1"
+                  className="bg-gray-300 px-2 py-1 text-sm md:text-base"
                 >
                   -
                 </button>
@@ -82,24 +85,26 @@ function Cart({ cart, setCart }) {
                 />
                 <button
                   onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                  className="bg-gray-300 px-2 py-1"
+                  className="bg-gray-300 px-2 py-1 text-sm md:text-base"
                 >
                   +
                 </button>
               </div>
 
               {/* Subtotal */}
-              <div className="w-24 text-center">
+              <div className="w-full md:w-24 text-center">
                 <p className="font-semibold">${(item.price * item.quantity).toFixed(2)}</p>
               </div>
 
               {/* Remove Button */}
-              <button
-                onClick={() => removeItem(item.id)}
-                className="bg-red-500 text-white px-2 py-1 ml-4"
-              >
-                Remove
-              </button>
+              <div className="w-full md:w-auto flex justify-center">
+                <button
+                  onClick={() => removeItem(item.id)}
+                  className="bg-red-500 text-white px-2 py-1 ml-4 md:ml-0"
+                >
+                  Remove
+                </button>
+              </div>
             </div>
           ))}
         </div>
