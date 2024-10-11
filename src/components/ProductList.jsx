@@ -71,7 +71,7 @@ function ProductList({ cart, setCart }) {
   });
 
   return (
-    <div className="p-4">
+    <div className="flex flex-col min-h-screen p-4">
       {/* Filter and Search Bar */}
       <div className="sticky top-0 bg-white z-10 p-4 shadow-md mb-6 flex flex-col md:flex-row justify-between items-center">
         <div className="flex items-center mb-4 md:mb-0">
@@ -117,10 +117,10 @@ function ProductList({ cart, setCart }) {
         </div>
       </div>
 
-      {/* Products Table */}
-      <div className="border border-gray-300 rounded-lg overflow-hidden">
-        {/* Header */}
-        <div className="bg-gray-200 sticky top-0 grid grid-cols-6 gap-4 p-2">
+      {/* Products List */}
+      <div className="flex-grow border border-gray-300 rounded-lg overflow-hidden">
+        {/* Header - Hidden on small screens */}
+        <div className="hidden md:grid grid-cols-6 gap-4 bg-gray-200 p-2">
           <div>Image</div>
           <div>Name</div>
           <div>Color</div>
@@ -130,17 +130,31 @@ function ProductList({ cart, setCart }) {
         </div>
 
         {/* Scrollable Body */}
-        <div className="overflow-auto" style={{ maxHeight: '400px' }}>
+        <div className="overflow-auto" style={{ maxHeight: '100%' }}>
           {filteredProducts.map((product) => (
-            <div key={product.id} className="grid grid-cols-6 gap-4 p-2 items-center hover:bg-gray-100">
-              <div>
+            <div
+              key={product.id}
+              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 p-2 items-center hover:bg-gray-100"
+            >
+              {/* Image */}
+              <div className="col-span-2 sm:col-span-1 flex justify-center sm:block">
                 <img src={product.image} alt={product.name} className="w-16 h-16 object-cover rounded-md" />
               </div>
-              <div>{product.name}</div>
-              <div>{product.color || 'N/A'}</div>
-              <div>{product.instock ? "Yes" : "No"}</div>
-              <div>${product.price}</div>
-              <div className="flex items-center">
+
+              {/* Name and Color */}
+              <div className="col-span-2 sm:col-span-1 text-center sm:text-left">
+                <p className="font-semibold">{product.name}</p>
+                <p className="text-sm text-gray-600">{product.color || "N/A"}</p>
+              </div>
+
+              {/* Stock */}
+              <div className="hidden sm:block">{product.instock ? "Yes" : "No"}</div>
+
+              {/* Price */}
+              <div className="text-center sm:text-left">${product.price.toFixed(2)}</div>
+
+              {/* Buy Section */}
+              <div className="flex flex-col sm:flex-row items-center sm:justify-start">
                 <input
                   type="checkbox"
                   onChange={(e) => handleCheckboxChange(product.id, e.target.checked)}
@@ -151,7 +165,7 @@ function ProductList({ cart, setCart }) {
                   min="1"
                   defaultValue="1"
                   onChange={(e) => handleQuantityChange(product.id, e.target.value)}
-                  className="w-16 border p-1 rounded-md"
+                  className="w-12 border p-1 rounded-md"
                 />
               </div>
             </div>
