@@ -5,7 +5,7 @@ function Cart({ cart, setCart }) {
   const [notification, setNotification] = useState("");
 
   const removeItem = (productId) => {
-    const itemToRemove = cart.find(item => item.id === productId);
+    const itemToRemove = cart.find((item) => item.id === productId);
     if (itemToRemove) {
       setCart(cart.filter((item) => item.id !== productId));
       setNotification(`Removed ${itemToRemove.name} from the cart.`);
@@ -30,37 +30,105 @@ function Cart({ cart, setCart }) {
           {notification}
         </div>
       )}
-      <h2 className="text-xl font-bold mb-4 mt-16">Cart Summary</h2>
-      {cart.map((item) => (
-        <div key={item.id} className="flex items-center mb-4 border p-2 rounded">
-          <img src={item.image} alt={item.name} className="w-16 h-16 object-cover mr-4" />
-          <div className="flex-1">
-            <p>{item.name}</p>
-            <p className="text-sm">Base Price: ${item.price.toFixed(2)}</p>
-            <input
-              type="number"
-              value={item.quantity}
-              min="1"
-              onChange={(e) => updateQuantity(item.id, parseInt(e.target.value))}
-              className="border p-1 w-16"
-            />
-          </div>
-          <p>Subtotal: ${(item.price * item.quantity).toFixed(2)}</p>
-          <button onClick={() => removeItem(item.id)} className="bg-red-500 text-white px-2 py-1 transition-transform transform hover:scale-105 ml-2">
-            Remove
-          </button>
-        </div>
-      ))}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-16">
+        <div className="md:col-span-2">
+          <h2 className="text-xl font-bold mb-4">Your Cart</h2>
 
-      <div className="text-right mt-6">
-        <h3 className="text-lg font-bold">Total: ${total.toFixed(2)}</h3>
-        <Link to="/thankyou">
-          <button className="bg-green-500 text-white px-4 py-2 mt-4 transition-transform transform hover:scale-105">
-            Proceed to Checkout
-          </button>
-        </Link>
+          {/* Header Row */}
+          <div className="flex items-center justify-between font-semibold bg-gray-200 p-4 mb-2">
+            <div className="w-16">Product</div>
+            <div className="flex-1 ml-4">Name</div>
+            <div className="w-24 text-center">Price</div>
+            <div className="w-24 text-center">Quantity</div>
+            <div className="w-24 text-center">Subtotal</div>
+            <div className="w-24"></div> {/* Empty for remove button */}
+          </div>
+
+          {cart.map((item) => (
+            <div
+              key={item.id}
+              className="flex items-center justify-between border-b p-4 mb-4"
+            >
+              {/* Product Image */}
+              <img
+                src={item.image}
+                alt={item.name}
+                className="w-16 h-16 object-cover"
+              />
+
+              {/* Product Details */}
+              <div className="flex-1 ml-4">
+                <p className="font-semibold">{item.name}</p>
+              </div>
+
+              {/* Price */}
+              <div className="w-24 text-center">
+                <p>${item.price.toFixed(2)}</p>
+              </div>
+
+              {/* Quantity Controls */}
+              <div className="w-24 flex items-center justify-center">
+                <button
+                  onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                  className="bg-gray-300 px-2 py-1"
+                >
+                  -
+                </button>
+                <input
+                  type="text"
+                  value={item.quantity}
+                  readOnly
+                  className="w-12 text-center mx-2 border"
+                />
+                <button
+                  onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                  className="bg-gray-300 px-2 py-1"
+                >
+                  +
+                </button>
+              </div>
+
+              {/* Subtotal */}
+              <div className="w-24 text-center">
+                <p className="font-semibold">${(item.price * item.quantity).toFixed(2)}</p>
+              </div>
+
+              {/* Remove Button */}
+              <button
+                onClick={() => removeItem(item.id)}
+                className="bg-red-500 text-white px-2 py-1 ml-4"
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+        </div>
+
+        {/* Cart Summary */}
+        <div className="p-4 bg-gray-100 rounded-lg">
+          <h3 className="text-lg font-bold mb-4">Cart Totals</h3>
+          <div className="flex justify-between mb-2">
+            <span>Subtotal:</span>
+            <span>${total.toFixed(2)}</span>
+          </div>
+          <div className="flex justify-between font-semibold text-lg mb-4">
+            <span>Total:</span>
+            <span>${total.toFixed(2)}</span>
+          </div>
+
+          {/* Proceed to Checkout Button */}
+          <Link to="/thankyou">
+            <button className="bg-blue-500 text-white w-full py-2 transition-transform transform hover:scale-105">
+              Proceed to Checkout
+            </button>
+          </Link>
+        </div>
+      </div>
+
+      {/* Back to Products Button */}
+      <div className="mt-4">
         <Link to="/">
-          <button className="bg-blue-500 text-white px-4 py-2 mt-4 ml-4 transition-transform transform hover:scale-105">
+          <button className="bg-gray-500 text-white w-full py-2 transition-transform transform hover:scale-105">
             Back to Products
           </button>
         </Link>

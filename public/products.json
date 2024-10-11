@@ -7,7 +7,8 @@
     "category": "Hoodie",
     "size": "L",
     "instock": true,
-    "quantity": 100
+    "quantity": 100,
+    "color" : "black"
   },
   {
     "id": 2,
@@ -17,7 +18,8 @@
     "category": "T-shirt",
     "size": "M",
     "instock": true,
-    "quantity": 200
+    "quantity": 200,
+    "color" : "black"
   },
   {
     "id": 3,
@@ -27,7 +29,8 @@
     "category": "Hoodie",
     "size": "XL",
     "instock": true,
-    "quantity": 150
+    "quantity": 150,
+    "color" : "black"
   },
   {
     "id": 4,
@@ -37,7 +40,8 @@
     "category": "T-shirt",
     "size": "L",
     "instock": true,
-    "quantity": 250
+    "quantity": 250,
+    "color" : "black"
   },
   {
     "id": 5,
@@ -47,7 +51,8 @@
     "category": "T-shirt",
     "size": "S",
     "instock": true,
-    "quantity": 300
+    "quantity": 300,
+    "color" : "black"
   },
   {
     "id": 6,
@@ -57,7 +62,8 @@
     "category": "Hoodie",
     "size": "M",
     "instock": true,
-    "quantity": 80
+    "quantity": 80,
+    "color" : "green"
   },
   {
     "id": 7,
@@ -67,7 +73,8 @@
     "category": "T-shirt",
     "size": "XL",
     "instock": true,
-    "quantity": 120
+    "quantity": 120,
+    "color" : "black"
   },
   {
     "id": 8,
@@ -77,7 +84,8 @@
     "category": "Hoodie",
     "size": "S",
     "instock": true,
-    "quantity": 90
+    "quantity": 90,
+    "color" : "black"
   },
   {
     "id": 9,
@@ -87,7 +95,8 @@
     "category": "T-shirt",
     "size": "L",
     "instock": true,
-    "quantity": 400
+    "quantity": 400,
+    "color" : "white"
   },
   {
     "id": 10,
@@ -97,6 +106,7 @@
     "category": "Hoodie",
     "size": "XXL",
     "instock": true,
-    "quantity": 60
+    "quantity": 60,
+    "color" : "black"
   }
 ]

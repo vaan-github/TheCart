@@ -1,124 +1,163 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-function ProductList({ products, cart, setCart }) {
-  const [categoryFilter, setCategoryFilter] = useState("");
-  const [sizeFilter, setSizeFilter] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [quantities, setQuantities] = useState({});
-  const [notification, setNotification] = useState("");
+function ProductList({ cart, setCart }) {
+  const [products, setProducts] = useState([]);
+  const [filters, setFilters] = useState({
+    category: "",
+    size: "",
+    search: "",
+  });
+  const [selectedProducts, setSelectedProducts] = useState({});
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("/products.json");
+        const data = await response.json();
+        setProducts(data);
+      } catch (error) {
+        console.error("Error fetching product data:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   const handleQuantityChange = (id, value) => {
-    setQuantities({ ...quantities, [id]: parseInt(value) });
+    setSelectedProducts((prev) => ({
+      ...prev,
+      [id]: { ...(prev[id] || {}), quantity: parseInt(value) },
+    }));
+  };
+
+  const handleCheckboxChange = (id, checked) => {
+    setSelectedProducts((prev) => {
+      const updated = { ...prev, [id]: { ...(prev[id] || {}), selected: checked } };
+      if (!checked) delete updated[id];
+      return updated;
+    });
+  };
+
+  const addToCart = () => {
+    const updatedCart = [...cart];
+    Object.keys(selectedProducts).forEach((id) => {
+      const product = products.find((item) => item.id === parseInt(id));
+      const quantity = selectedProducts[id]?.quantity || 1;
+      const cartItem = updatedCart.find((item) => item.id === product.id);
+
+      if (cartItem) {
+        cartItem.quantity += quantity;
+      } else {
+        updatedCart.push({ ...product, quantity });
+      }
+    });
+    setCart(updatedCart);
+    navigate("/cart");
+  };
+
+  const resetFilters = () => {
+    setFilters({ category: "", size: "", search: "" });
   };
 
   const filteredProducts = products.filter((product) => {
+    const { category, size, search } = filters;
     return (
-      (categoryFilter === "" || product.category === categoryFilter) &&
-      (sizeFilter === "" || product.size === sizeFilter) &&
-      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+      (!category || product.category === category) &&
+      (!size || product.size === size) &&
+      product.name.toLowerCase().includes(search.toLowerCase())
     );
   });
 
-  const addToCart = (product) => {
-    const quantity = quantities[product.id] || 1;
-    const updatedCart = [...cart];
-    const productInCart = updatedCart.find((item) => item.id === product.id);
-
-    if (productInCart) {
-      productInCart.quantity += quantity;
-    } else {
-      updatedCart.push({ ...product, quantity });
-    }
-
-    setCart(updatedCart);
-    setNotification(`${product.name} added to cart!`);
-    setTimeout(() => setNotification(""), 3000);
-  };
-
   return (
     <div className="p-4">
-      {/* Fixed notification */}
-      {notification && (
-        <div className="fixed bottom-0 left-0 w-full bg-green-300 p-2 text-center z-20">
-          {notification}
+      {/* Filter and Search Bar */}
+      <div className="sticky top-0 bg-white z-10 p-4 shadow-md mb-6 flex flex-col md:flex-row justify-between items-center">
+        <div className="flex items-center mb-4 md:mb-0">
+          <select
+            value={filters.category}
+            onChange={(e) => setFilters((prev) => ({ ...prev, category: e.target.value }))}
+            className="border p-2 mr-2 rounded-md w-40"
+          >
+            <option value="">All Categories</option>
+            <option value="Hoodie">Hoodie</option>
+            <option value="T-shirt">T-shirt</option>
+          </select>
+
+          <select
+            value={filters.size}
+            onChange={(e) => setFilters((prev) => ({ ...prev, size: e.target.value }))}
+            className="border p-2 mr-2 rounded-md w-40"
+          >
+            <option value="">All Sizes</option>
+            <option value="S">Small</option>
+            <option value="M">Medium</option>
+            <option value="L">Large</option>
+            <option value="XL">Extra Large</option>
+            <option value="XXL">Very Large</option>
+          </select>
+
+          <button onClick={resetFilters} className="bg-red-500 text-white px-4 py-2 rounded-md">
+            Reset
+          </button>
         </div>
-      )} 
 
-      {/* Sticky Filter and Search Section */}
-      <div className="sticky top-0 bg-white z-10 p-4 shadow-md mb-6"> {/* Adjusted top position to make room for notification */}
-        <div className="flex justify-between items-center">
-          {/* Category and Size Filters */}
-          <div className="flex">
-            <select
-              value={categoryFilter}
-              onChange={(e) => setCategoryFilter(e.target.value)}
-              className="border p-2"
-            >
-              <option value="">All Categories</option>
-              <option value="Hoodie">Hoodie</option>
-              <option value="T-shirt">T-shirt</option>
-            </select>
-            <select
-              value={sizeFilter}
-              onChange={(e) => setSizeFilter(e.target.value)}
-              className="border p-2 ml-2"
-            >
-              <option value="">All Sizes</option>
-              <option value="S">Small</option>
-              <option value="M">Medium</option>
-              <option value="L">Large</option>
-            </select>
-          </div>
-
-          {/* Search Bar and "Go to Cart" Button */}
-          <div className="flex items-center">
-            <input
-              type="text"
-              placeholder="Search Products"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="border p-2"
-            />
-            <Link to="/cart">
-              <button className="bg-green-500 text-white px-4 py-2 ml-2">
-                Go to Cart
-              </button>
-            </Link>
-          </div>
+        <div className="flex items-center w-full md:w-auto">
+          <input
+            type="text"
+            placeholder="Search Products"
+            value={filters.search}
+            onChange={(e) => setFilters((prev) => ({ ...prev, search: e.target.value }))}
+            className="border p-2 w-full md:w-60 mr-2 rounded-md"
+          />
+          <button onClick={addToCart} className="bg-blue-500 text-white px-4 py-2 rounded-md">
+            Add to Cart
+          </button>
         </div>
       </div>
 
-      {/* Product List Section */}
-      {filteredProducts.length ? <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {filteredProducts.map((product) => (
-          <div key={product.id} className="border p-4">
-            <img
-              src={product.image}
-              alt={product.name}
-              className="w-full h-48 object-contain mb-4"
-            />
-            <h2 className="text-lg font-semibold">{product.name}</h2>
-            <p>${product.price.toFixed(2)}</p>
-            <p>{product.category}</p>
-            <p>{product.size}</p>
+      {/* Products Table */}
+      <div className="border border-gray-300 rounded-lg overflow-hidden">
+        {/* Header */}
+        <div className="bg-gray-200 sticky top-0 grid grid-cols-6 gap-4 p-2">
+          <div>Image</div>
+          <div>Name</div>
+          <div>Color</div>
+          <div>In Stock</div>
+          <div>Price</div>
+          <div>Buy</div>
+        </div>
 
-            <input
-              type="number"
-              value={quantities[product.id] || 1}
-              min="1"
-              onChange={(e) => handleQuantityChange(product.id, e.target.value)}
-              className="border p-1 w-16"
-            />
-            <button
-              className="bg-blue-500 text-white px-4 py-2 ml-2 transition-transform transform hover:scale-105"
-              onClick={() => addToCart(product)}
-            >
-              Add to Cart
-            </button>
-          </div>
-        ))}
-      </div> : <div style = {{display : "flex", justifyContent : "center", width : "100%"}}>No Result Found</div> }
+        {/* Scrollable Body */}
+        <div className="overflow-auto" style={{ maxHeight: '400px' }}>
+          {filteredProducts.map((product) => (
+            <div key={product.id} className="grid grid-cols-6 gap-4 p-2 items-center hover:bg-gray-100">
+              <div>
+                <img src={product.image} alt={product.name} className="w-16 h-16 object-cover rounded-md" />
+              </div>
+              <div>{product.name}</div>
+              <div>{product.color || 'N/A'}</div>
+              <div>{product.instock ? "Yes" : "No"}</div>
+              <div>${product.price}</div>
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  onChange={(e) => handleCheckboxChange(product.id, e.target.checked)}
+                  className="mr-2"
+                />
+                <input
+                  type="number"
+                  min="1"
+                  defaultValue="1"
+                  onChange={(e) => handleQuantityChange(product.id, e.target.value)}
+                  className="w-16 border p-1 rounded-md"
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
