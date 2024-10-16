@@ -74,11 +74,11 @@ function ProductList({ cart, setCart }) {
     <div className="flex flex-col min-h-screen p-4">
       {/* Filter and Search Bar */}
       <div className="sticky top-0 bg-white z-10 p-4 shadow-md mb-6 flex flex-col md:flex-row justify-between items-center">
-        <div className="flex items-center mb-4 md:mb-0">
+        <div className="flex flex-col sm:flex-row items-center w-full sm:w-auto mb-4 sm:mb-0 space-y-4 sm:space-y-0 sm:space-x-2">
           <select
             value={filters.category}
             onChange={(e) => setFilters((prev) => ({ ...prev, category: e.target.value }))}
-            className="border p-2 mr-2 rounded-md w-40"
+            className="border p-2 rounded-md w-full sm:w-40"
           >
             <option value="">All Categories</option>
             <option value="Hoodie">Hoodie</option>
@@ -88,7 +88,7 @@ function ProductList({ cart, setCart }) {
           <select
             value={filters.size}
             onChange={(e) => setFilters((prev) => ({ ...prev, size: e.target.value }))}
-            className="border p-2 mr-2 rounded-md w-40"
+            className="border p-2 rounded-md w-full sm:w-40"
           >
             <option value="">All Sizes</option>
             <option value="S">Small</option>
@@ -98,20 +98,20 @@ function ProductList({ cart, setCart }) {
             <option value="XXL">Very Large</option>
           </select>
 
-          <button onClick={resetFilters} className="bg-red-500 text-white px-4 py-2 rounded-md">
+          <button onClick={resetFilters} className="bg-red-500 text-white px-4 py-2 rounded-md w-full sm:w-auto">
             Reset
           </button>
         </div>
 
-        <div className="flex items-center w-full md:w-auto">
+        <div className="flex flex-col sm:flex-row items-center w-full sm:w-auto space-y-4 sm:space-y-0 sm:space-x-2">
           <input
             type="text"
             placeholder="Search Products"
             value={filters.search}
             onChange={(e) => setFilters((prev) => ({ ...prev, search: e.target.value }))}
-            className="border p-2 w-full md:w-60 mr-2 rounded-md"
+            className="border p-2 w-full sm:w-60 rounded-md"
           />
-          <button onClick={addToCart} className="bg-blue-500 text-white px-4 py-2 rounded-md">
+          <button onClick={addToCart} className="bg-blue-500 text-white px-4 py-2 rounded-md w-full sm:w-auto">
             Add to Cart
           </button>
         </div>
@@ -119,14 +119,14 @@ function ProductList({ cart, setCart }) {
 
       {/* Products List */}
       <div className="flex-grow border border-gray-300 rounded-lg overflow-hidden">
-        {/* Header - Hidden on small screens */}
-        <div className="hidden md:grid grid-cols-6 gap-4 bg-gray-200 p-2">
-          <div>Image</div>
-          <div>Name</div>
-          <div>Color</div>
-          <div>In Stock</div>
-          <div>Price</div>
-          <div>Buy</div>
+        {/* Unified Header */}
+        <div className="grid grid-cols-4 md:grid-cols-6 gap-4 bg-gray-200 p-2 text-center">
+          <div className="col-span-1">Image</div>
+          <div className="col-span-1">Name</div>
+          <div className="col-span-1 hidden md:block">Color</div>
+          <div className="col-span-1">In Stock</div>
+          <div className="col-span-1 hidden md:block">Price</div>
+          <div className="col-span-1">Buy</div>
         </div>
 
         {/* Scrollable Body */}
@@ -134,27 +134,31 @@ function ProductList({ cart, setCart }) {
           {filteredProducts.map((product) => (
             <div
               key={product.id}
-              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 p-2 items-center hover:bg-gray-100"
+              className="grid grid-cols-4 md:grid-cols-6 gap-4 p-2 items-center hover:bg-gray-100 text-center"
             >
               {/* Image */}
-              <div className="col-span-2 sm:col-span-1 flex justify-center sm:block">
+              <div className="col-span-1 flex justify-center">
                 <img src={product.image} alt={product.name} className="w-16 h-16 object-cover rounded-md" />
               </div>
 
-              {/* Name and Color */}
-              <div className="col-span-2 sm:col-span-1 text-center sm:text-left">
+              {/* Name */}
+              <div className="col-span-1">
                 <p className="font-semibold">{product.name}</p>
-                <p className="text-sm text-gray-600">{product.color || "N/A"}</p>
+              </div>
+
+              {/* Color (hidden on small screens) */}
+              <div className="col-span-1 hidden md:block">
+                <p>{product.color || "N/A"}</p>
               </div>
 
               {/* Stock */}
-              <div className="hidden sm:block">{product.instock ? "Yes" : "No"}</div>
+              <div className="col-span-1">{product.instock ? "Yes" : "No"}</div>
 
-              {/* Price */}
-              <div className="text-center sm:text-left">${product.price.toFixed(2)}</div>
+              {/* Price (hidden on small screens) */}
+              <div className="col-span-1 hidden md:block">${product.price.toFixed(2)}</div>
 
               {/* Buy Section */}
-              <div className="flex flex-col sm:flex-row items-center sm:justify-start">
+              <div className="col-span-1">
                 <input
                   type="checkbox"
                   onChange={(e) => handleCheckboxChange(product.id, e.target.checked)}
